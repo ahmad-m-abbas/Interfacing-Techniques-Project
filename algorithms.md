@@ -29,8 +29,7 @@ The pledge maze algorithm is a maze traversing algorithm that is used when the w
 When the counter reaches **Zero** the robot has traversed the obstacle, and it is continues on its path.
 The next figure describes the scheme of the Algorithm [1]:
 
-![Pledge Algorithm 
-Scheme](https://www.researchgate.net/profile/Krzysztof-Cetnarowicz/publication/220855794/figure/fig1/AS:649286383566856@1531813345936/Pledge-algorithm-A-Left-or-Right-Hand-side_W640.jpg)
+![alt text](https://www.researchgate.net/profile/Krzysztof-Cetnarowicz/publication/220855794/figure/fig1/AS:649286383566856@1531813345936/Pledge-algorithm-A-Left-or-Right-Hand-side_W640.jpg)
 
 An example of the Algorithm Execution [2]:
 
