@@ -4,7 +4,10 @@ In the latter situation, the most efficient path out may be established before e
 
 Unfortunately, real-world situations are not as pleasant as the assumptions of the second type of algorithm. In the majority of circumstances, a visitor has no perspective on the entire region that should be examined. As a result, algorithms that are beneficial in real-world circumstances fall into the first of the major groups.
 
-In this project, we are going to solve a maze without a prior knowledge of of its layout. So we did some research on three well-known algorithms to find the best fit for our project.
+In this project, we are going to solve a maze without a prior knowledge of of its layout. So we did some research on four well-known algorithms to find the best fit for our project.
+
+## Random Mouse Algorithm
+This is the most trivial way to solve a maze. Just like a wandering mouse, the idea is to keep following the current passage until reaching a junction, then choosing the next direction randomly. This algorithm may be efficient in memory, since no memory is needed, but obviousely inefficeint in time. The robot will eventually find the solution, even if the maze is imperfect, but may take forever to do so.
 
 ## Wall Follower
 The most frequent maze solution method is the wall follower, whose fundamental principle is to follow walls in the maze region. The solver robot looks at the right or left wall and goes around the maze till it finds its way out. The wall follower has two alternative rules: the left-hand rule and right-hand rule. Depending on the regulation, the turning precedence will be to the left or to the right.
@@ -60,7 +63,7 @@ When you've finally found the answer, entrances that have been marked exactly on
 The temporal complexity of DFS is O(V), where V is the number of vertices, when the full maze is traversed.
 
 ## Conclusion 
-After analysing the three algorithms above we decided to go with LSRB algorithm,  In "LSRB" L stands for 'LEFT', S for 'STRAIGHT', R for RIGHT, and B for 'BACK' or BACKWARD. These LEFT, RIGHT, STRAIGHT, and BACK are the directions that the robot follows. This Algorithm is simple and straight forward. In this algorithm LEFT direction has the highest priority and the BACK (U-Turn) direction has the least priority. Let's see what this algorithm looks like:
+After analysing the four algorithms above we decided to go with LSRB algorithm,  In "LSRB" L stands for 'LEFT', S for 'STRAIGHT', R for RIGHT, and B for 'BACK' or BACKWARD. These LEFT, RIGHT, STRAIGHT, and BACK are the directions that the robot follows. This Algorithm is simple and straight forward. In this algorithm LEFT direction has the highest priority and the BACK (U-Turn) direction has the least priority. Let's see what this algorithm looks like:
 - **Step 1**: Always follow **LEFT** whenever there is a turn possible
 - **Step 2**: If **LEFT** is not possible go **STRAIGHT**.
 - **Step 3**: If **LEFT** and **STRAIGHT** both are not possible take **RIGHT**.
