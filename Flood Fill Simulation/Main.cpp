@@ -5,7 +5,6 @@
 #include <queue>
 #include "API.h"
 #include "Cell.h"
-#include "Coordinates.h"
 #include "Maze.h"
 #include "MazeGraph.h"
 
@@ -24,10 +23,6 @@ struct PriorityQueue
     {
         return elements.empty();
     }
-    inline int size() const
-    {
-        return elements.size();
-    }
 
     inline void put(T item, priority_t priority)
     {
@@ -44,16 +39,16 @@ struct PriorityQueue
 
 
 void log(const string& text);
-void exploreCell(vector<vector<Cell>> &map, int x, int y);
+void exploreCell(vector<vector<Cell>> &map, int xCell, int yCell);
 void findStartToGoal(vector<vector<Cell>> &map, Coordinates goal);
-bool isGoal(int x, int y);
+bool isGoal(int xCheck, int yCheck);
 bool matchGoal(Coordinates current, Coordinates goal);
 Cell &getFrontCell(vector<vector<Cell>> &map);
 Cell &getLeftCell(vector<vector<Cell>> &map);
 Cell &getRightCell(vector<vector<Cell>> &map);
 void getMinDistanceDirection(vector<vector<Cell>> &map, int &minDistance, char &minDirection);
 void floodOpenNeighbours(vector<vector<Cell>> &map, Coordinates goal);
-void moveInDirection(vector<vector<Cell>> &map, char direction);
+void moveInDirection(vector<vector<Cell>> &map, char direct);
 void updatePosition(char currentMove);
 void re_estimateCosts(vector<vector<Cell>> &map, Coordinates goal);
 void route(MazeGraph &graph,
@@ -78,7 +73,7 @@ int x=0, y=0;
 Coordinates came_from[16][16];
 int cost_so_far [16][16] = {INT_MAX};
 bool done = false; // done flood fill
-int main(int argc, char* argv[]) {
+int main() {
     API::setText(0, 0, "Starting Point");
 
     vector<vector<Cell>> map(mazeSize, vector<Cell>(mazeSize));
@@ -233,54 +228,54 @@ void findStartToGoal(vector<vector<Cell>> &map, Coordinates goal)
     }
 }
 
-void exploreCell(vector<vector<Cell>> &map, int x, int y)
+void exploreCell(vector<vector<Cell>> &map, int xCell, int yCell)
 {
-    // map[x][y].setVisited(); // first visit is straight, then right, then left, then back
-    if (map[x][y].getHasBeenExplored())
+    // map[xCell][yCell].setVisited(); // first visit is straight, then right, then left, then back
+    if (map[xCell][yCell].getHasBeenExplored())
     {
         return;
     }
 
-    map[x][y].sethasBeenExplored(true);
+    map[xCell][yCell].sethasBeenExplored(true);
     switch (direction)
     {
         case 'N':
 
-            map[x][y].setNorthWall(API::wallFront());
+            map[xCell][yCell].setNorthWall(API::wallFront());
 
-            map[x][y].setEastWall(API::wallRight());
-            map[x][y].setWestWall(API::wallLeft());
+            map[xCell][yCell].setEastWall(API::wallRight());
+            map[xCell][yCell].setWestWall(API::wallLeft());
 
             break;
         case 'S':
 
-            map[x][y].setSouthWall(API::wallFront());
-            map[x][y].setEastWall(API::wallLeft());
-            map[x][y].setWestWall(API::wallRight());
+            map[xCell][yCell].setSouthWall(API::wallFront());
+            map[xCell][yCell].setEastWall(API::wallLeft());
+            map[xCell][yCell].setWestWall(API::wallRight());
             break;
         case 'W':
 
-            map[x][y].setWestWall(API::wallFront());
-            map[x][y].setSouthWall(API::wallLeft());
-            map[x][y].setNorthWall(API::wallRight());
+            map[xCell][yCell].setWestWall(API::wallFront());
+            map[xCell][yCell].setSouthWall(API::wallLeft());
+            map[xCell][yCell].setNorthWall(API::wallRight());
             break;
         case 'E':
 
-            map[x][y].setEastWall(API::wallFront());
-            map[x][y].setNorthWall(API::wallLeft());
-            map[x][y].setSouthWall(API::wallRight());
+            map[xCell][yCell].setEastWall(API::wallFront());
+            map[xCell][yCell].setNorthWall(API::wallLeft());
+            map[xCell][yCell].setSouthWall(API::wallRight());
             break;
         default:
-            int a = 0;
+            ;
     }
 }
 
-bool isGoal(int x, int y)
+bool isGoal(int xCheck, int yCheck)
 {
     if (searchMode == FIND_CENTRE)
-        return ((x == 7 || x == 8) && (y == 7 || y == 8));
+        return ((xCheck == 7 || xCheck == 8) && (yCheck == 7 || yCheck == 8));
     else
-        return ((x == 0) && (y == 0));
+        return ((xCheck == 0) && (yCheck == 0));
 }
 
 bool matchGoal(Coordinates current, Coordinates goal)
@@ -379,15 +374,14 @@ void getMinDistanceDirection(vector<vector<Cell>> &map, int &minDistance, char &
 
             break;
         default:
-            int a = 0; // do nothing
+            ;
     }
 }
 void floodOpenNeighbours(vector<vector<Cell>> &map, Coordinates goal)
 {
 
     stack<Coordinates> floodStack;
-    int minDistance = mazeSize * 2;
-    char minDirection;
+    int minDistance;
     int cellX, cellY;
     floodStack.push(Coordinates({x, y}));
     while (!floodStack.empty())
@@ -404,7 +398,6 @@ void floodOpenNeighbours(vector<vector<Cell>> &map, Coordinates goal)
         if (cell.getHasBeenExplored())
         {
 
-            minDistance = mazeSize * 2;
             int D1 = (!map[cellX][cellY].hasNorthWall()) ? map[cellX][cellY + 1].getFloodFillCost() : mazeSize * 2;
             int D2 = (!map[cellX][cellY].hasSouthWall()) ? map[cellX][cellY - 1].getFloodFillCost() : mazeSize * 2;
             int D3 = (!map[cellX][cellY].hasWestWall()) ? map[cellX - 1][cellY].getFloodFillCost() : mazeSize * 2;
@@ -439,14 +432,12 @@ void floodOpenNeighbours(vector<vector<Cell>> &map, Coordinates goal)
         else
         {
 
-            int minD = mazeSize * 2;
             // a cell that has not been explored has no walls so all neighbours are accessible
-
             int d1 = isSafe(cellX + 1, cellY) ? map[cellX + 1][cellY].getFloodFillCost() : mazeSize * 2;
             int d2 = isSafe(cellX - 1, cellY) ? map[cellX - 1][cellY].getFloodFillCost() : mazeSize * 2;
             int d3 = isSafe(cellX, cellY + 1) ? map[cellX][cellY + 1].getFloodFillCost() : mazeSize * 2;
             int d4 = isSafe(cellX, cellY - 1) ? map[cellX][cellY - 1].getFloodFillCost() : mazeSize * 2;
-            minD = min(d1, d2);
+            int minD = min(d1, d2);
             minD = min(minD, d3);
             minD = min(minD, d4);
             if (map[cellX][cellY].getFloodFillCost() != 1 + minD)
@@ -473,16 +464,16 @@ void floodOpenNeighbours(vector<vector<Cell>> &map, Coordinates goal)
         }
     }
 }
-void moveInDirection(vector<vector<Cell>> &map, char direction)
+void moveInDirection(vector<vector<Cell>> &map, char direct)
 {
     // move to the  neighbouring cell with the lowest distance cost
     int prevX = x, prevY = y;
-    if (direction == 'f')
+    if (direct == 'f')
     {
         API::moveForward();
         updatePosition('f');
     }
-    else if (direction == 'l')
+    else if (direct == 'l')
     {
         API::turnLeft();
         updatePosition('l');
@@ -490,7 +481,7 @@ void moveInDirection(vector<vector<Cell>> &map, char direction)
         updatePosition('f');
     }
 
-    else if (direction == 'r')
+    else if (direct == 'r')
     {
 
         API::turnRight();
@@ -498,7 +489,7 @@ void moveInDirection(vector<vector<Cell>> &map, char direction)
         API::moveForward();
         updatePosition('f');
     }
-    else if (direction == 'b')
+    else if (direct == 'b')
     {
         API::turnRight();
         updatePosition('r');
@@ -559,15 +550,14 @@ void updatePosition(char currentMove)
             x = 0, y = 0;
     }
 }
+
 void re_estimateCosts(vector<vector<Cell>> &map, Coordinates goal)
 {
     for (int i = 0; i < mazeSize; i++)
     {
         for (int j = 0; j < mazeSize; j++)
         {
-
             int X = abs(i - goal.x);
-
             int Y = abs(j - goal.y);
             int floodFillCost = X + Y;
             map[i][j].setFloodFillCost(floodFillCost);
@@ -647,16 +637,12 @@ Cell &getFrontCell(vector<vector<Cell>> &map)
     {
         case 'N':
             return map[x][y + 1];
-            break;
         case 'S':
             return map[x][y - 1];
-            break;
         case 'E':
             return map[x + 1][y];
-            break;
         case 'W':
             return map[x - 1][y];
-            break;
         default:
             return map[x][y];
     }
@@ -669,19 +655,15 @@ Cell &getLeftCell(vector<vector<Cell>> &map)
     {
         case 'N':
             return map[x - 1][y];
-            break;
         case 'S':
             return map[x + 1][y];
-            break;
         case 'E':
             return map[x][y + 1];
-            break;
         case 'W':
             return map[x][y - 1];
-            break;
         default:
             return map[x][y];
-            ;
+
     }
 }
 
@@ -692,16 +674,12 @@ Cell &getRightCell(vector<vector<Cell>> &map)
     {
         case 'N':
             return map[x + 1][y];
-            break;
         case 'S':
             return map[x - 1][y];
-            break;
         case 'E':
             return map[x][y - 1];
-            break;
         case 'W':
             return map[x][y + 1];
-            break;
         default:
             return map[x][y];
     }
