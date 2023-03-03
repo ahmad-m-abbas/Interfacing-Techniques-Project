@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2021.2.3\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\Flood_Fill_using_C.dir/objects.a
+C:\PROGRA~1\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin\ar.exe cr CMakeFiles\Flood_Fill_using_C.dir/objects.a @CMakeFiles\Flood_Fill_using_C.dir\objects1.rsp
+C:\PROGRA~1\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\Flood_Fill_using_C.dir/objects.a -Wl,--no-whole-archive -o Flood_Fill_using_C.exe -Wl,--out-implib,libFlood_Fill_using_C.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Flood_Fill_using_C.dir\linklibs.rsp
