@@ -1,0 +1,39 @@
+"C:\Program Files\JetBrains\CLion 2021.2.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - MinGW Makefiles" "C:\Users\Watani Mall\Desktop\interface project\Flood Fill using C"
+CMake Error: Could not find cmake module file: CMakeDetermineFillCompiler.cmake
+CMake Error: Error required internal CMake variable not set, cmake may not be built correctly.
+Missing variable is:
+CMAKE_Fill_COMPILER_ENV_VAR
+CMake Error: Error required internal CMake variable not set, cmake may not be built correctly.
+Missing variable is:
+CMAKE_Fill_COMPILER
+CMake Error: Could not find cmake module file: C:/Users/Watani Mall/Desktop/interface project/Flood Fill using C/cmake-build-debug/CMakeFiles/3.20.2/CMakeFillCompiler.cmake
+CMake Error: Could not find cmake module file: CMakeDeterminecppCompiler.cmake
+CMake Error: Error required internal CMake variable not set, cmake may not be built correctly.
+Missing variable is:
+CMAKE_cpp_COMPILER_ENV_VAR
+CMake Error: Error required internal CMake variable not set, cmake may not be built correctly.
+Missing variable is:
+CMAKE_cpp_COMPILER
+CMake Error: Could not find cmake module file: C:/Users/Watani Mall/Desktop/interface project/Flood Fill using C/cmake-build-debug/CMakeFiles/3.20.2/CMakecppCompiler.cmake
+CMake Error at CMakeLists.txt:2 (project):
+  No CMAKE_Fill_COMPILER could be found.
+
+  Tell CMake where to find the compiler by setting the CMake cache entry
+  CMAKE_Fill_COMPILER to the full path to the compiler, or to the compiler
+  name if it is in the PATH.
+
+
+CMake Error: Could not find cmake module file: CMakeFillInformation.cmake
+CMake Error at CMakeLists.txt:2 (project):
+  No CMAKE_cpp_COMPILER could be found.
+
+  Tell CMake where to find the compiler by setting the CMake cache entry
+  CMAKE_cpp_COMPILER to the full path to the compiler, or to the compiler
+  name if it is in the PATH.
+
+
+CMake Error: Could not find cmake module file: CMakecppInformation.cmake
+CMake Error: CMAKE_Fill_COMPILER not set, after EnableLanguage
+CMake Error: CMAKE_cpp_COMPILER not set, after EnableLanguage
+-- Configuring incomplete, errors occurred!
+See also "C:/Users/Watani Mall/Desktop/interface project/Flood Fill using C/cmake-build-debug/CMakeFiles/CMakeOutput.log".

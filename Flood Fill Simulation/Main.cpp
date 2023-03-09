@@ -10,34 +10,6 @@
 
 using namespace std;
 
-
-template <typename T, typename priority_t>
-struct PriorityQueue
-{
-    typedef std::pair<priority_t, T> PQElement;
-    std::priority_queue<PQElement, std::vector<PQElement>,
-            std::greater<PQElement>>
-            elements;
-
-    inline bool empty() const
-    {
-        return elements.empty();
-    }
-
-    inline void put(T item, priority_t priority)
-    {
-        elements.emplace(priority, item);
-    }
-
-    T get()
-    {
-        T best_item = elements.top().second;
-        elements.pop();
-        return best_item;
-    }
-};
-
-
 void log(const string& text);
 void exploreCell(vector<vector<Cell>> &map, int xCell, int yCell);
 void findStartToGoal(vector<vector<Cell>> &map, Coordinates goal);
@@ -74,7 +46,8 @@ Coordinates came_from[16][16];
 int cost_so_far [16][16] = {INT_MAX};
 bool done = false; // done flood fill
 int main() {
-    API::setText(0, 0, "Starting Point");
+    API::setText(0, 0, "Start");
+    API::setColor(0, 0, 'Y');
 
     vector<vector<Cell>> map(mazeSize, vector<Cell>(mazeSize));
 
@@ -121,6 +94,7 @@ int main() {
     followPath(map, path);
 
     // Route to goal
+    log("Going to gaol...");
     resetCost();
     searchMode = FIND_CENTRE;
     route(graph, map, Coordinates{0, 0}, path);
@@ -150,17 +124,26 @@ void route(MazeGraph &graph,
 {
 
 
-    PriorityQueue<Coordinates, int> frontier;
-    frontier.put(start, 0);
+    vector<pair<Coordinates,int>> cells;
+
+    cells.emplace_back(start,0);
 
     came_from[start.x][start.y] = start;
     cost_so_far[start.x][start.y] = 0;
     Coordinates G = {-1, -1};
-    while (!frontier.empty())
+    while (!cells.empty())
     {
         // get
 
-        Coordinates current = frontier.get();
+        int i=0,max=cells[0].second;
+        for (int j = 1; j < cells.size(); ++j) {
+            if(cells[i].second > max){
+                i=j;
+                max = cells[i].second;
+            }
+        }
+        Coordinates current = cells[i].first;
+        cells.erase(cells.begin()+i);
         if (isGoal(current.x, current.y))
         {
             G = current;
@@ -174,7 +157,7 @@ void route(MazeGraph &graph,
             {
                 cost_so_far[next.x][next.y] = new_cost;
 
-                frontier.put(next, new_cost);
+                cells.emplace_back(next, new_cost);
                 came_from[next.x][next.y] = current;
             }
         }
@@ -569,6 +552,10 @@ void followPath(vector<vector<Cell>> &map, std::stack<Coordinates> &path)
 {
     // while stack not empty get next coordinate
     // move to next neighbour
+    if(done && searchMode ==  FIND_CENTRE){
+        cerr << "Needs " << path.size() << " iterations\n";
+    }
+
     while (!path.empty())
     {
         moveToNeighbouringCoordinates(map, path.top().x, path.top().y);
